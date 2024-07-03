@@ -1,0 +1,25 @@
+server:
+  port: 8003
+
+spring:
+  datasource:
+    password: '123456'
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    url: jdbc:sqlserver://localhost:1433;databaseName=microservices;encrypt=true;trustServerCertificate=true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.SQLServerDialect
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      taskClientTasksByProjectId:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10000
