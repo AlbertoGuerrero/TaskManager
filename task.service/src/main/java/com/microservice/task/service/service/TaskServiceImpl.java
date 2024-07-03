@@ -1,12 +1,10 @@
 package com.microservice.task.service.service;
 
 import com.microservice.common.dto.TaskDTO;
-import com.microservice.common.dto.UserDTO;
 import com.microservice.task.service.entity.Task;
 import com.microservice.task.service.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
