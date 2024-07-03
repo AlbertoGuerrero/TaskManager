@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          default-label: master
+          uri: https://github.com/AlbertoGuerrero/microservices
+          search-paths: config-data
+  application:
+    name: config-service
