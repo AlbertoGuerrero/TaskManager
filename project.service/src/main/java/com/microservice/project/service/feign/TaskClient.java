@@ -1,6 +1,6 @@
 package com.microservice.project.service.feign;
 
-import com.microservice.common.dto.TaskDTO;
+import com.microservice.commons.dto.TaskDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

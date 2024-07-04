@@ -1,7 +1,6 @@
 package com.microservice.project.service.service;
 
-import com.microservice.common.dto.ProjectDTO;
-import com.microservice.common.dto.TaskDTO;
+import com.microservice.commons.dto.ProjectDTO;
 import com.microservice.project.service.entity.Project;
 import com.microservice.project.service.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

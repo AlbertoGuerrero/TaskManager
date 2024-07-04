@@ -1,6 +1,6 @@
 package com.microservice.project.service.service;
 
-import com.microservice.common.dto.ProjectDTO;
+import com.microservice.commons.dto.ProjectDTO;
 import com.microservice.project.service.entity.Project;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.microservice.task.service.controller;
 
-import com.microservice.common.dto.TaskDTO;
+import com.microservice.commons.dto.TaskDTO;
 import com.microservice.task.service.entity.Task;
 import com.microservice.task.service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;

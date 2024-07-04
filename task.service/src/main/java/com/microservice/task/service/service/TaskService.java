@@ -1,6 +1,6 @@
 package com.microservice.task.service.service;
 
-import com.microservice.common.dto.TaskDTO;
+import com.microservice.commons.dto.TaskDTO;
 import com.microservice.task.service.entity.Task;
 
 import java.util.List;

@@ -20,7 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.microservice</groupId>
-			<artifactId>common.dto</artifactId>
+			<artifactId>commons</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>

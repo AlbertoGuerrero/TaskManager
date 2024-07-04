@@ -1,7 +1,7 @@
 package com.microservice.project.service.controller;
 
-import com.microservice.common.dto.ProjectDTO;
-import com.microservice.common.dto.TaskDTO;
+import com.microservice.commons.dto.ProjectDTO;
+import com.microservice.commons.dto.TaskDTO;
 import com.microservice.project.service.feign.TaskClient;
 import com.microservice.project.service.entity.Project;
 import com.microservice.project.service.service.ProjectService;
