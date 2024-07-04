@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "task-service", url = "http://localhost:8002")
+@FeignClient(name = "task-service")
 public interface TaskClient {
     @GetMapping("/tasks/project/{projectId}")
     List<TaskDTO> getTasksByProjectId(@PathVariable("projectId") Long projectId);
