@@ -13,19 +13,16 @@ eureka:
 spring:
   cloud:
     gateway: 
-      discovery:
-        locator:
-          enabled: true
       routes: 
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/users/**
-        - id: task-service
-          uri: lb://task-service
-          predicates:
-            - Path=/tasks/**
-        - id: project-service
-          uri: lb://project-service
-          predicates:
-            - Path=/projects/**
+      - id: user-service
+        uri: lb://user-service
+        predicates:
+          - Path=/users/**
+      - id: task-service
+        uri: lb://task-service
+        predicates:
+          - Path=/tasks/**
+      - id: project-service
+        uri: lb://project-service
+        predicates:
+          - Path=/projects/**
