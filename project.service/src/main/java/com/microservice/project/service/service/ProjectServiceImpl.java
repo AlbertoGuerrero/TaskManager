@@ -38,7 +38,6 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDTO updateProject(Long id, Project projectDetails) {
         Project project = projectRepository.findById(id).orElse(null);
         if (project != null) {
-            project.setId(projectDetails.getId());
             project.setName(projectDetails.getName());
             project.setDescription(projectDetails.getDescription());
             project = projectRepository.save(project);
