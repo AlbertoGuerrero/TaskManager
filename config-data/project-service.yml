@@ -26,10 +26,15 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 
-resilience4j:
-  circuitbreaker:
+resilience4j.circuitbreaker:
     instances:
       taskClientTasksByProjectId:
-        failureRateThreshold: 50
-        slidingWindowSize: 10
-        waitDurationInOpenState: 10000
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            slidingWindowType: TIME_BASED
+            minimumNumberOfCalls: 4
+            waitDurationInOpenState: 5s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+            recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
