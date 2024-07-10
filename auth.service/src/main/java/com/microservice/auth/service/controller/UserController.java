@@ -2,7 +2,9 @@ package com.microservice.auth.service.controller;
 
 import com.microservice.auth.service.entity.User;
 import com.microservice.auth.service.service.UserService;
+import com.microservice.commons.dto.ProjectDTO;
 import com.microservice.commons.dto.TokenDTO;
+import com.microservice.commons.dto.UserDTO;
 import com.microservice.commons.dto.UserRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +35,19 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> create(@RequestBody UserRegistrationDTO userRegistrationDTO) {
+    public ResponseEntity<UserDTO> create(@RequestBody UserRegistrationDTO userRegistrationDTO) {
         User user = userService.save(userRegistrationDTO);
         if (user == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(convertToDTO(user));
+    }
+
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = UserDTO.builder()
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .build();
+        return userDTO;
     }
 }
