@@ -1,16 +1,14 @@
 package com.microservice.commons.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ProjectDTO {
-    private Long id;
-    private String name;
-    private String description;
+@SuperBuilder
+public class UserRegistrationDTO extends UserDTO {
+    private String password;
 }

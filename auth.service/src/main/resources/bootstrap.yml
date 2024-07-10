@@ -5,3 +5,10 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
+
+jwt:
+  secret: azgODhgV0J0ZEqHiv3R/8NTGfvKdRG5CW4+95m1iIjQVaaY/veKMFzi9z0mmbAp9D7Nwu/A6HlWI54MHZrPq75PTstQs+mW9VH7gsArHmiz+eSgBN0d7iB/Uz3hzN1DykNBEjN71jLauTPwjMhYzq50u3cSoYlitb8dzwonh7hHGq+QwEVv6C21GzLg7f51GtiKfIP+/AQIwM4QuSEr6MGBGuToJ6n5dE1gG0ruXNyWq2M6bg1TVxUMIaZAdKNLvzPXrUcQUQ+S/80qyGuEIpHBFJBPz4H83iGeGsBRrvhOgHCNArr8U81nYVsdiiw3Kq00yBgKp4U7Eut8MS/BJEw==
+
+time:
+  valid:
+    token: 3600000
