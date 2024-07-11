@@ -25,3 +25,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+admin-paths:
+  paths:
+    -
+      uri: "/auth/[1-9]+[0-9]*/roles"
+      method: "POST"

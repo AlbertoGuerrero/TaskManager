@@ -1,5 +1,6 @@
 package com.microservice.gateway.service.config;
 
+import com.microservice.commons.dto.RequestDTO;
 import com.microservice.commons.dto.TokenDTO;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -25,7 +26,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
             if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                return onError(exchange, HttpStatus.BAD_REQUEST);
+                return onError(exchange, HttpStatus.UNAUTHORIZED);
             }
             String tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             String [] chunks = tokenHeader.split(" ");
@@ -35,6 +36,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             return webClient.build()
                     .post()
                     .uri("http://auth-service/auth/validate?token=" + chunks[1])
+                    .bodyValue(new RequestDTO(exchange.getRequest().getPath().toString(), exchange.getRequest().getMethod().toString()))
                     .retrieve().bodyToMono(TokenDTO.class)
                     .map(t -> {
                         t.getToken();
