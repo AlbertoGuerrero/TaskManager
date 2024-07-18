@@ -28,7 +28,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        final String authorizationHeader = request.getHeader("Authorization");
+        /*final String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
 
@@ -46,7 +46,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
+        }*/
+        if (!request.getRequestURI().equals("/auth/refreshtoken")) {
+            String username = null;
+            String jwt = parseJwt(request);
+            if (jwt != null) {
+                username = jwtProvider.getUserNameFromToken(jwt);
+            }
+            if (jwt != null && username != null && jwtProvider.validate(jwt, new RequestDTO(request.getRequestURI(), request.getMethod()))) {
+                Optional<User> user = userRepository.findByUserName(username);
+                if (user.isPresent()) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(user, null, null);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
         }
         chain.doFilter(request, response);
+    }
+
+    private String parseJwt(HttpServletRequest request) {
+        return jwtProvider.getJwtFromCookies(request);
     }
 }

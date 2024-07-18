@@ -6,9 +6,13 @@ import com.microservice.commons.dto.RequestDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -22,16 +26,46 @@ public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String secret;
-
-    @Value("${time.valid.token}")
-    private Long timeValidToken;
+    @Value("${jwt.expiration.time}")
+    private Long jwtExpirationTime;
+    @Value("${jwt.cookie.name}")
+    private String jwtCookie;
+    @Value("${jwt.refresh.cookie.name}")
+    private String jwtRefreshCookie;
 
     @Autowired
     private RouteValidator routeValidator;
 
+    public ResponseCookie generateJwtCookie(User user) {
+        String jwt = createToken(user);
+        return generateCookie(jwtCookie, jwt, "/");
+    }
+
+    public ResponseCookie generateRefreshJwtCookie(String refreshToken) {
+        return generateCookie(jwtRefreshCookie, refreshToken, "/");
+    }
+
+    public String getJwtFromCookies(HttpServletRequest request) {
+        return getCookieValueByName(request, jwtCookie);
+    }
+
+    public String getJwtRefreshFromCookies(HttpServletRequest request) {
+        return getCookieValueByName(request, jwtRefreshCookie);
+    }
+
+    public ResponseCookie getCleanJwtCookie() {
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/").build();
+        return cookie;
+    }
+
+    public ResponseCookie getCleanJwtRefreshCookie() {
+        ResponseCookie cookie = ResponseCookie.from(jwtRefreshCookie, null).path("/").build();
+        return cookie;
+    }
+
     public String createToken(User user) {
         Date now = new Date();
-        Date exp = new Date(now.getTime() + timeValidToken);
+        Date exp = new Date(now.getTime() + jwtExpirationTime);
         Map<String, Object> claims = new HashMap<>();
         String rolesString = user.getRoles().stream()
                 .map(Role::getName)
@@ -64,11 +98,21 @@ public class JwtProvider {
     }
 
     public String getUserNameFromToken(String token) {
-        try {
             return Jwts.parser().verifyWith(getSigningKey()).build()
-                    .parseSignedClaims(token).getPayload().getSubject();
-        } catch (Exception e) {
-            return "Bad token";
+                .parseSignedClaims(token).getPayload().getSubject();
+    }
+
+    private ResponseCookie generateCookie(String name, String value, String path) {
+        ResponseCookie cookie = ResponseCookie.from(name, value).path(path).maxAge(24 * 60 * 60).httpOnly(true).build();
+        return cookie;
+    }
+
+    private String getCookieValueByName(HttpServletRequest request, String name) {
+        Cookie cookie = WebUtils.getCookie(request, name);
+        if (cookie != null) {
+            return cookie.getValue();
+        } else {
+            return null;
         }
     }
 

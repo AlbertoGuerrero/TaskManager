@@ -9,6 +9,8 @@ import com.microservice.commons.dto.RequestDTO;
 import com.microservice.commons.dto.TokenDTO;
 import com.microservice.commons.dto.UserRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,13 +75,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenDTO login(UserRegistrationDTO userRegistrationDTO) {
+    public ResponseCookie login(UserRegistrationDTO userRegistrationDTO) {
         Optional<User> user = userRepository.findByUserName(userRegistrationDTO.getUserName());
         if (!user.isPresent()) {
             return null;
         }
         if (passwordEncoder.matches(userRegistrationDTO.getPassword(), user.get().getPassword())) {
-            return new TokenDTO(jwtProvider.createToken(user.get()));
+            return jwtProvider.generateJwtCookie(user.get());
         }
         return null;
     }
@@ -94,5 +96,10 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return new TokenDTO(token);
+    }
+
+    @Override
+    public Optional<User> findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }
