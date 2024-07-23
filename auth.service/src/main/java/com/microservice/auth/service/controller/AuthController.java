@@ -3,7 +3,6 @@ package com.microservice.auth.service.controller;
 import com.microservice.auth.service.entity.RefreshToken;
 import com.microservice.auth.service.entity.User;
 import com.microservice.auth.service.response.MessageResponse;
-import com.microservice.auth.service.security.JwtProvider;
 import com.microservice.auth.service.security.exception.TokenRefreshException;
 import com.microservice.auth.service.service.RefreshTokenService;
 import com.microservice.auth.service.service.UserService;
