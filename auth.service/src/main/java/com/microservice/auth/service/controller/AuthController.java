@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,6 +68,25 @@ public class AuthController {
                             "Refresh token is not in database!"));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Refresh Token is empty!"));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != null) {
+            Optional<User> user = (Optional<User>) principal;
+            if (user.isPresent()) {
+                refreshTokenService.deleteByUserId(user.get().getId());
+            }
+        }
+
+        ResponseCookie jwtCookie = userService.getCleanJwtCookie();
+        ResponseCookie jwtRefreshCookie = userService.getCleanJwtRefreshCookie();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
+                .body(new MessageResponse("You've been logged out!"));
     }
 
     @PostMapping("/validate")

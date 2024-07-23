@@ -14,6 +14,6 @@ jwt:
     name: microservices-jwt
   refresh:
     expiration:
-      time: 3600000
+      time: 240000
     cookie:
       name: microservices-jwt-refresh

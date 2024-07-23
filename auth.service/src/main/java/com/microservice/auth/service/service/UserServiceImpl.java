@@ -87,6 +87,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseCookie getCleanJwtCookie() {
+        return jwtProvider.getCleanJwtCookie();
+    }
+
+    @Override
+    public ResponseCookie getCleanJwtRefreshCookie() {
+       return jwtProvider.getCleanJwtRefreshCookie();
+    }
+
+    @Override
     public TokenDTO validate(String token, RequestDTO requestDTO) {
         if (!jwtProvider.validate(token, requestDTO)) {
             return null;

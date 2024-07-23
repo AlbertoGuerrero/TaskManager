@@ -50,12 +50,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
                         t.getToken();
                         return exchange;
                     }).flatMap(chain::filter)
-                    .onErrorResume(UnauthorizedException.class, ex -> {
-                        return onError(exchange, HttpStatus.UNAUTHORIZED);
-                    })
-                    .onErrorResume(RuntimeException.class, ex -> {
-                        return onError(exchange, HttpStatus.INTERNAL_SERVER_ERROR);
-                    });
+                    .onErrorResume(UnauthorizedException.class, ex -> onError(exchange, HttpStatus.UNAUTHORIZED))
+                    .onErrorResume(RuntimeException.class, ex -> onError(exchange, HttpStatus.INTERNAL_SERVER_ERROR));
         }));
     }
 

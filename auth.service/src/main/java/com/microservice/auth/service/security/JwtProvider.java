@@ -28,6 +28,8 @@ public class JwtProvider {
     private String secret;
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationTime;
+    @Value("${jwt.refresh.expiration.time}")
+    private Long jwtRefreshExpirationTime;
     @Value("${jwt.cookie.name}")
     private String jwtCookie;
     @Value("${jwt.refresh.cookie.name}")
@@ -103,7 +105,7 @@ public class JwtProvider {
     }
 
     private ResponseCookie generateCookie(String name, String value, String path) {
-        ResponseCookie cookie = ResponseCookie.from(name, value).path(path).maxAge(24 * 60 * 60).httpOnly(true).build();
+        ResponseCookie cookie = ResponseCookie.from(name, value).path(path).maxAge(4 * 60).httpOnly(true).build();
         return cookie;
     }
 

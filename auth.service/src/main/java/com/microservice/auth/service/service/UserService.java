@@ -13,6 +13,8 @@ public interface UserService {
     User save(UserRegistrationDTO userRegistrationDTO);
     User assignRolesToUser(Long userId, List<String> rolesToAdd);
     ResponseCookie login(UserRegistrationDTO userRegistrationDTO);
+    ResponseCookie getCleanJwtCookie();
+    ResponseCookie getCleanJwtRefreshCookie();
     TokenDTO validate(String token, RequestDTO requestDTO);
     Optional<User> findByUserName(String userName);
 }
