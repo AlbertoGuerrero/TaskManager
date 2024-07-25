@@ -6,7 +6,7 @@ spring:
       server:
         git:
           default-label: master
-          uri: https://github.com/AlbertoGuerrero/microservices.git
+          uri: https://github.com/AlbertoGuerrero/TaskManager.git
           search-paths: config-data
   application:
     name: config-service
