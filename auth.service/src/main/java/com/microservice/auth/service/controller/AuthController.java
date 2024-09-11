@@ -6,10 +6,7 @@ import com.microservice.auth.service.response.MessageResponse;
 import com.microservice.auth.service.security.exception.TokenRefreshException;
 import com.microservice.auth.service.service.RefreshTokenService;
 import com.microservice.auth.service.service.UserService;
-import com.microservice.commons.dto.RequestDTO;
-import com.microservice.commons.dto.TokenDTO;
-import com.microservice.commons.dto.UserDTO;
-import com.microservice.commons.dto.UserRegistrationDTO;
+import com.microservice.commons.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -99,23 +96,21 @@ public class AuthController {
 
     @PostMapping("/create")
     public ResponseEntity<UserDTO> create(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        User user = userService.save(userRegistrationDTO);
+        UserDTO user = userService.save(userRegistrationDTO);
         if (user == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(convertToDTO(user));
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/{userId}/roles")
     public ResponseEntity<User> assignRolesToUser(@PathVariable Long userId, @RequestBody List<String> rolesToAdd) {
         User user =  userService.assignRolesToUser(userId, rolesToAdd);
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.badRequest().build();
-    }
-
-    private UserDTO convertToDTO(User user) {
-        return UserDTO.builder()
-                .userName(user.getUserName())
-                .email(user.getEmail())
-                .build();
     }
 }

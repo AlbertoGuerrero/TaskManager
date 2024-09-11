@@ -28,8 +28,6 @@ public class JwtProvider {
     private String secret;
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationTime;
-    @Value("${jwt.refresh.expiration.time}")
-    private Long jwtRefreshExpirationTime;
     @Value("${jwt.cookie.name}")
     private String jwtCookie;
     @Value("${jwt.refresh.cookie.name}")

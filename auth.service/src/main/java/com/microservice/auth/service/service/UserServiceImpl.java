@@ -5,9 +5,7 @@ import com.microservice.auth.service.entity.User;
 import com.microservice.auth.service.repository.RoleRepository;
 import com.microservice.auth.service.repository.UserRepository;
 import com.microservice.auth.service.security.JwtProvider;
-import com.microservice.commons.dto.RequestDTO;
-import com.microservice.commons.dto.TokenDTO;
-import com.microservice.commons.dto.UserRegistrationDTO;
+import com.microservice.commons.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private JwtProvider jwtProvider;
 
     @Override
-    public User save(UserRegistrationDTO userRegistrationDTO) {
+    public UserDTO save(UserRegistrationDTO userRegistrationDTO) {
         List<User> userList = userRepository.findByUserNameOrEmail(userRegistrationDTO.getUserName(),
                 userRegistrationDTO.getEmail());
         if (!userList.isEmpty()) {
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
                 .password(password)
                 .email(userRegistrationDTO.getEmail())
                 .roles(roles).build();
-        return userRepository.save(user);
+        return convertToDTO(userRepository.save(user));
     }
 
     @Override
@@ -111,5 +109,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByUserName(String userName) {
         return userRepository.findByUserName(userName);
+    }
+
+    @Override
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user != null ? convertToDTO(user) : null;
+    }
+
+    private UserDTO convertToDTO(User user) {
+        return UserDTO.builder()
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .build();
     }
 }
