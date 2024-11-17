@@ -8,7 +8,7 @@ Este proyecto es un sistema de microservicios diseñado para gestionar proyectos
 
 ## **Características** ✨
 
-- **Gestión de Proyectos**: Creación, actualización y eliminación de proyectos.
+- **Gestión de Proyectos**: CRUD de proyectos.
 - **Gestión de Tareas**: CRUD completo para las tareas en proyectos.
 - **Autenticación y Autorización Seguras**: Implementación de JWT para proteger los endpoints.
 - **Sistema de Notificación por Correo**: Notificaciones automáticas mediante Apache Kafka.
